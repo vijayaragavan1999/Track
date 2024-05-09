@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Track</string>
+    <string name="title_activity_map">MapActivity</string>
+    <string name="you_don_t_have_an_account_click_here_signup">Don\'t have an account <u><font color="#87CEEB">click here Signup</font></u></string>
+    <string name="default_web_client_id">306567070619-aitt2npv76sfc31bdi70ouqolq97bh48.apps.googleusercontent.com</string>
+    <string name="myMapApiKey">AIzaSyD9xtNefxEvGj7EWEaYqYzmuAYJR863WwU</string>
+
+</resources>

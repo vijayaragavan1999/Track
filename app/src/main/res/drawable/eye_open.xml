@@ -1,0 +1,15 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="22dp"
+    android:viewportWidth="24.0"
+    android:viewportHeight="24.0">
+
+    <!-- Eye icon for showing password -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M12,4C7.03,4 2.86,6.75 1,12c1.86,5.25 6.03,8 11,8s9.14,-2.75 11,-8c-1.86,-5.25 -6.03,-8 -11,-8zM12,18c-3.31,0 -6.29,-1.98 -7.5,-6c1.21,-4.02 4.19,-6 7.5,-6s6.29,1.98 7.5,6C18.29,16.02 15.31,18 12,18zM12,9a3,3 0 0,0 -3,3a3,3 0 0,0 6,0a3,3 0 0,0 -3,-3z" />
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M0,0h24v24h-24z"
+        android:fillAlpha="0" />
+</vector>
