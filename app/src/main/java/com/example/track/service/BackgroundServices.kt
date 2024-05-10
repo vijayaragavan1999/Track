@@ -62,7 +62,7 @@ class BackgroundServices : Service() {
                     }
                     myFunction()
                 }
-                delay(10000)
+                delay(900000)
             }
         }
     }

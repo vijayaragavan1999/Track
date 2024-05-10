@@ -171,7 +171,7 @@ class HomeActivity : AppCompatActivity(),LocationListAdapter.OnItemClickListener
                 } else {
                     Toast.makeText(mContext,"Please Turn on your Internet",Toast.LENGTH_SHORT).show()
                 }
-                    delay(10000)
+                    delay(900000)
             }
         }
     }
