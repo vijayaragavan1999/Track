@@ -11,29 +11,30 @@ import kotlinx.coroutines.launch
 class UserViewModel(private val repository : UserRepository) : ViewModel() {
 
     private val userLocationHistory = MutableLiveData<List<LocationUpdate>>()
+    private val userDetails = MutableLiveData<Boolean>()
 
-    fun insertUser(user : Users){
+    fun insertUser(user: String, password: String){
         viewModelScope.launch {
-            repository.insertUser(user)
-            userLocationHistory.value = repository.getAllLoctionHistory()
+            repository.insertUser(user,password)
+            userLocationHistory.value = repository.getAllLocationHistory()
         }
     }
 
-    fun insertLoggedUser(user : LoggedUser){
+    fun insertLoggedUser(user: String, password: String){
         viewModelScope.launch {
-            repository.insertLoggedUser(user)
+            repository.insertLoggedUser(user,password)
         }
     }
 
 
     fun getAllLoctionHistory() : MutableLiveData<List<LocationUpdate>> {
         viewModelScope.launch {
-            userLocationHistory.postValue(repository.getAllLoctionHistory())
+            userLocationHistory.postValue(repository.getAllLocationHistory())
         }
         return userLocationHistory
     }
 
-    suspend fun getUserByUser(userName : String) : Users?{
+    suspend fun getUserByUser(userName : String) :Boolean{
         return repository.getUserByUser(userName)
     }
 

@@ -1,15 +1,10 @@
 package com.example.track.model
 
 
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-
-@Entity(tableName = "logged_user")
-data class LoggedUser (
-    @PrimaryKey(autoGenerate = true)
-    val id: Long =0,
-    var user_name: String,
-    var password: String
-)
+open class LoggedUser : RealmObject() {
+    var userName: String = ""
+    var password: String = ""
+}

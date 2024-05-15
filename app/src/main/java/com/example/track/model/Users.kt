@@ -1,13 +1,12 @@
 package com.example.track.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
 
-@Entity(tableName = "users")
-data class Users (
-    @PrimaryKey(autoGenerate = true)
-    val id: Long =0,
-    var user_name: String,
-    var password: String
-)
+open class Users : RealmObject() {
+    @PrimaryKey
+    var userName: String = ""
+    var password: String = ""
+}

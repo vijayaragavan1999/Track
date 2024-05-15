@@ -74,7 +74,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         binding.playback.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                val dbHistory = userRepository.getAllLoctionHistory()
+                val dbHistory = userRepository.getAllLocationHistory()
                 var locationHistory : MutableList<LocationUpdate> = mutableListOf()
                 for(i in dbHistory.size-1 downTo 1){
                     if(dbHistory.get(i).id <=  id){

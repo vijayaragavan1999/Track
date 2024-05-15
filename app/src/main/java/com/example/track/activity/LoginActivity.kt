@@ -89,7 +89,7 @@ class LoginActivity : AppCompatActivity() {
                 CoroutineScope(Dispatchers.Main).launch {
                     val result = viewModel.checkLoginUser(username,password)
                     if(result!=null){
-                        viewModel.insertLoggedUser(LoggedUser(0,username,password))
+                        viewModel.insertLoggedUser(username,password)
                         startActivity(Intent(mContext, HomeActivity::class.java))
                         finish()
                     }else{
@@ -132,9 +132,9 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(mContext,"Login successfully",Toast.LENGTH_SHORT).show()
 
                 CoroutineScope(Dispatchers.Main).launch {
-                    val load =async { viewModel.insertUser(Users(0,account.email.toString(),"")) }
+                    val load =async { viewModel.insertUser(account.email.toString(),"") }
                     load.await()
-                    viewModel.insertLoggedUser(LoggedUser(0,account.email.toString(),""))
+                    viewModel.insertLoggedUser(account.email.toString(),"")
 
                     startActivity(Intent(mContext, HomeActivity::class.java))
                     finish()

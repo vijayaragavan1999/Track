@@ -6,6 +6,8 @@ import com.example.track.activity.HomeActivity
 import com.example.track.repository.UserRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
+import io.realm.Realm
+import io.realm.RealmConfiguration
 
 
 class MyApplication : Application() {
@@ -15,6 +17,12 @@ class MyApplication : Application() {
         mContext = applicationContext as MyApplication
         userRepository = UserRepository(mContext)
 
+        Realm.init(applicationContext)
+        val  config: RealmConfiguration = RealmConfiguration.Builder().name("sample") .schemaVersion(1)
+            .allowQueriesOnUiThread(true)
+            .allowWritesOnUiThread(true)
+            .build()
+        Realm.setDefaultConfiguration(config)
     }
 
     companion object{

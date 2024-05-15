@@ -93,19 +93,16 @@ class HomeActivity : AppCompatActivity(),LocationListAdapter.OnItemClickListener
         viewModel = ViewModelProvider(this, factory).get(UserViewModel::class.java)
 
         binding.logout.setOnClickListener {
-
            // Clear data and sign out
+
             CoroutineScope(Dispatchers.Main).launch {
-                if(userRepository.getLoggedUser().get(0).password.equals("")){
-                    val auth = FirebaseAuth.getInstance()
-                    auth.signOut()
-                }
-                userRepository.deleteUsers()
-                userRepository.deleteLoggedUsers()
-                userRepository.deleteLocationHistory()
-                thread1?.cancel()
-                thread2?.cancel()
-                stopBackgroundService()
+                val auth = FirebaseAuth.getInstance()
+                auth.signOut()
+                    userRepository.deleteLoggedUsers()
+                    userRepository.deleteLocationHistory()
+                    thread1?.cancel()
+                    thread2?.cancel()
+                    stopBackgroundService()
             }
             val intent = Intent(this@HomeActivity, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -113,15 +110,8 @@ class HomeActivity : AppCompatActivity(),LocationListAdapter.OnItemClickListener
             finish()
         }
 
-
-        askPermissions()
-        thread1 = CoroutineScope(Dispatchers.Main).launch {
-            var locations = userRepository.getAllLoctionHistory()
-            binding.recycler.layoutManager = LinearLayoutManager(mContext)
-            binding.recycler.adapter = LocationListAdapter(mContext, locations, listener)
-        }
-
         fetchDetails()
+        askPermissions()
         if(!isLocationEnabled(this)){
             showLocationSettingsDialog()
         }
@@ -157,16 +147,31 @@ class HomeActivity : AppCompatActivity(),LocationListAdapter.OnItemClickListener
 
     fun fetchDetails(){
         thread2 = CoroutineScope(Dispatchers.Main).launch {
-                var locations = userRepository.getAllLoctionHistory()
-                binding.recycler.layoutManager = LinearLayoutManager(mContext)
-                var locationAdapter = LocationListAdapter(mContext, locations, listener)
-                binding.recycler.adapter = locationAdapter
+            viewModel.getAllLoctionHistory().observe(this@HomeActivity, { locationList ->
+                try{
+                    if(locationList!=null && locationList.isNotEmpty()){
+                        binding.recycler.layoutManager = LinearLayoutManager(mContext)
+                        val locationAdapter = LocationListAdapter(mContext, locationList, listener)
+                        binding.recycler.adapter = locationAdapter
+                    }
+                }catch (e : Exception){
+
+                }
+            })
+
+
                 while (true) {
                 if (isInternetAvailable()) {
-                    var locations = userRepository.getAllLoctionHistory()
-                    binding.recycler.layoutManager = LinearLayoutManager(mContext)
-                    var locationAdapter = LocationListAdapter(mContext, locations, listener)
-                    binding.recycler.adapter = locationAdapter
+                    var locations = viewModel.getAllLoctionHistory().value
+                    try {
+                        if(locations!=null && locations.isNotEmpty()){
+                            binding.recycler.layoutManager = LinearLayoutManager(mContext)
+                            var locationAdapter = LocationListAdapter(mContext, locations, listener)
+                            binding.recycler.adapter = locationAdapter
+                        }
+                    }catch (e : Exception){
+
+                    }
 
                 } else {
                     Toast.makeText(mContext,"Please Turn on your Internet",Toast.LENGTH_SHORT).show()

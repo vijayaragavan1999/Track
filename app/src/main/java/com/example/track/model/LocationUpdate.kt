@@ -1,13 +1,21 @@
 package com.example.track.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
-@Entity(tableName = "location_update")
-data class LocationUpdate (
-    @PrimaryKey(autoGenerate = true)
-    val id: Long =0,
-    var latitude: Double,
-    var longitude: Double,
-    var address : String
-)
+open class LocationUpdate : RealmObject() {
+    @PrimaryKey
+    var id: Long = 0
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
+    var address: String = ""
+
+    companion object {
+        // Track the maximum id value
+        private var maxId: Long = 0
+    }
+
+    fun setIdIncremented() {
+        id = ++maxId
+    }
+}

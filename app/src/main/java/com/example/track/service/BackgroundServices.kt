@@ -13,7 +13,6 @@ import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.example.track.model.LocationUpdate
 import com.example.track.repository.UserRepository
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -99,7 +98,7 @@ class BackgroundServices : Service() {
                 val address = getAddress(latitude, longitude)
 
                 CoroutineScope(Dispatchers.IO).launch {
-                    userRepository.insertLocationUpdate(LocationUpdate(0,latitude,longitude,address))
+                    userRepository.insertLocationUpdate(latitude,longitude,address)
                 }
 
             }

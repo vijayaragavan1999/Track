@@ -1,38 +1,31 @@
 package com.example.track.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import com.example.track.MyApplication
-import com.example.track.UserDao
-import com.example.track.model.LocationUpdate
-import com.example.track.model.LoggedUser
-import com.example.track.model.Users
+import io.realm.Realm
+import io.realm.RealmConfiguration
 
-
-@Database(entities = [Users::class,LocationUpdate::class,LoggedUser::class],version = 1,exportSchema =false)
-abstract class MyDatabase : RoomDatabase() {
-
-    abstract fun userDao() : UserDao
+class MyDatabase private constructor() {
 
     companion object {
-        @Volatile
-        private var INSTANCE : MyDatabase?=null
+        private var realm: Realm? = null
 
-        fun getDatabase(context: Context): MyDatabase {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    MyDatabase::class.java,
-                    "sample"
-                ).build()
-                INSTANCE = instance
-                return instance
+        fun getDatabase(context: Context): Realm {
+            if (realm == null) {
+                Realm.init(context)
+                val config = RealmConfiguration.Builder()
+                    .name("track.realm") // Set the database name
+                    .schemaVersion(1) // Set the schema version
+                    .deleteRealmIfMigrationNeeded() // Handle migration automatically
+                    .build()
+//                Realm.setDefaultConfiguration(config)
+                realm = Realm.getDefaultInstance()
             }
+            return realm!!
         }
 
-
+        fun closeDatabase() {
+            realm?.close()
+            realm = null
+        }
     }
-
 }

@@ -114,21 +114,21 @@ class SignupActivity : AppCompatActivity() {
             val username = binding.userName.text.toString()
             val password = binding.password.text.toString()
             val confirmPassword = binding.confirmPassword.text.toString()
-            if(checkValidation(username,password,confirmPassword)){
+            if (checkValidation(username, password, confirmPassword)) {
                 CoroutineScope(Dispatchers.Main).launch {
-
                     val existUser = viewModel.getUserByUser(username)
-                    if(existUser==null){
-                        val load =async { viewModel.insertUser(Users(0,username,password)) }
+                    if (existUser !=null && existUser == true) {
+                        Toast.makeText(mContext, "ExistUser", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val load = async { viewModel.insertUser(username, password) }
                         load.await()
                         startActivity(Intent(mContext, LoginActivity::class.java))
                         finish()
-                    }else{
-                        Toast.makeText(mContext,"ExistUser",Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
+
     }
 
     fun checkValidation(username: String, password: String, confirmPassword: String) : Boolean{
